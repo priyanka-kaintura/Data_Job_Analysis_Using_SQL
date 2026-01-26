@@ -192,5 +192,26 @@ SELECT EXTRACT(MONTH FROM '12-09-2007'::DATE);
 SELECT EXTRACT(MONTH FROM '12-07-2007');
 
 
+SELECT COUNT(job_id) AS job_count, EXTRACT(MONTH FROM job_posted_date) AS month
+FROM job_postings_fact
+GROUP BY month
+ORDER BY job_count DESC;
+
+-- "job_count","month"
+-- "92266","1"
+-- "75067","8"
+-- "66601","10"
+-- "64560","2"
+-- "64404","11"
+-- "64158","3"
+-- "63855","7"
+-- "62915","4"
+-- "62433","9"
+-- "61500","6"
+-- "57692","12"
+-- "52235","5"
+
+
+-- From above data we observe that job posting count is substanitally high during Jan & Aug and then remains nealry constant for most month between 60,000-65,000
 -- NEXT PROBLMES
 -- CREATE NEW TABLES FOR jobs posted in each month AS jan_job, feb_jobs etc and store them in database
