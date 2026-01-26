@@ -1,0 +1,20 @@
+[
+  {
+    "column_name": "skill_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "column_name": "skills",
+    "data_type": "character varying",
+    "character_maximum_length": 50,
+    "is_nullable": "YES"
+  },
+  {
+    "column_name": "type",
+    "data_type": "character varying",
+    "character_maximum_length": 50,
+    "is_nullable": "YES"
+  }
+]

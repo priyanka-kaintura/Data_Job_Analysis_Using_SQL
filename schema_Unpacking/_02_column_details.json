@@ -1,0 +1,32 @@
+[
+  {
+    "column_name": "company_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "column_name": "name",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "column_name": "link",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "column_name": "link_google",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "column_name": "thumbnail",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  }
+]

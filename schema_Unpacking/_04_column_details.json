@@ -1,0 +1,14 @@
+[
+  {
+    "column_name": "job_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "column_name": "skill_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  }
+]
