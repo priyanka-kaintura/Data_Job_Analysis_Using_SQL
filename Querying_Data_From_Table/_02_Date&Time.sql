@@ -215,3 +215,174 @@ ORDER BY job_count DESC;
 -- From above data we observe that job posting count is substanitally high during Jan & Aug and then remains nealry constant for most month between 60,000-65,000
 -- NEXT PROBLMES
 -- CREATE NEW TABLES FOR jobs posted in each month AS jan_job, feb_jobs etc and store them in database
+
+-- Write a query to find average salary for both yearly (salry year avg) and hourly (salary hourly avg) for job postings that were posted after June 1, 2023. Group the results by job_schedule_type
+
+SELECT job_schedule_type, AVG(salary_year_avg) AS yearly_avg_salary, AVG(salary_hour_avg) AS hourly_avg_salary
+FROM job_postings_fact
+WHERE job_posted_date > '1-06-2023'::DATE
+GROUP BY job_schedule_type
+LIMIT 10;
+
+-- SELECT EXTRACT(MONTH FROM '1-06-2023'::DATE); -- RESULTS INTO 6 THAT MEANS THE MONTH IS CALCULATED CORRECTLY
+-- "job_schedule_type","yearly_avg_salary","hourly_avg_salary"
+-- "Contractor","105379.745535714286","55.5895523138832998"
+-- "Contractor and Full-time","",""
+-- "Contractor and Internship","",""
+-- "Contractor and Part-time","",""
+-- "Contractor and Per diem","",""
+-- "Contractor and Temp work","86471.604166666667","52.2462156862745098"
+-- "Contractor, Temp work, and Internship","",""
+-- "Full-time","123777.834177001641","41.3512298159969959"
+-- "Full-time and Contractor","104875.047820000000","55.5662000000000000"
+-- "Full-time and Internship","78722.727272727273","29.8405172413793103"
+
+
+-- Write a query to count the number of job posting for each month in 2023, adjusting the job_posted_date to be in 'America/New_York' TZ before extracting (hind) the month. Assume the job_posted_date to be stored in UTC. Group by and order by the month
+-- SELECT EXTRACT(MONTH FROM job_posted_date AT TIME ZONE 'UTC' AT TIME ZONE 'America/New_York') AS month
+-- FROM job_postings_fact
+
+
+SELECT EXTRACT(MONTH FROM job_posted_date AT TIME ZONE 'UTC' AT TIME ZONE 'America/New_York') AS month, COUNT(job_id)
+FROM job_postings_fact
+WHERE job_posted_date BETWEEN '1-1-2023'::DATE AND '31-12-2023'::DATE
+GROUP BY month
+ORDER BY month;
+
+
+-- "month","count"
+-- "1","91943"
+-- "2","64612"
+-- "3","64069"
+-- "4","63099"
+-- "5","52063"
+-- "6","61604"
+-- "7","63860"
+-- "8","75104"
+-- "9","62335"
+-- "10","66466"
+-- "11","64478"
+-- "12","56009"
+
+
+-- SUMS TO 7,85,642 WHICH MATCHES THE TOTAL COUNT
+
+-- SELECT job_posted_date
+-- FROM job_postings_fact
+-- WHERE job_posted_date BETWEEN '1-1-2023'::DATE AND '31-12-2023'::DATE
+-- ORDER BY job_posted_date;
+
+-- 
+-- 1-50 of 785642
+-- Write a query to find companies that have posted job offering health insurance, where these postings were made in the second quarter of 2023. Use date extraction to filter by quarter.
+
+SELECT DISTINCT job_postings_fact.company_id AS company_id, company_dim.name AS company_name
+FROM job_postings_fact
+JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE EXTRACT(YEAR FROM job_posted_date) = 2023 
+AND EXTRACT(QUARTER FROM job_posted_date) = 2
+AND job_health_insurance = TRUE
+ORDER BY company_id
+LIMIT 100;
+
+-- "company_id","company_name"
+-- 7,"Proofpoint"
+-- 10,"Signify Technology"
+-- 18,"Engtal"
+-- 19,"Enlighten"
+-- 21,"Meta"
+-- 27,"CyberCoders"
+-- 28,"ADNET Systems, Inc."
+-- 29,"Jacobs"
+-- 30,"Vizient, Inc."
+-- 34,"Nelnet"
+-- 43,"PayPal"
+-- 48,"Abbtech Professional Resources, Inc"
+-- 49,"Booz Allen Hamilton"
+-- 53,"USAA"
+-- 62,"LMI Consulting, LLC"
+-- 66,"Citi"
+-- 68,"Foot Locker"
+-- 69,"Oracle"
+-- 74,"IQVIA"
+-- 75,"New Iron, Inc."
+-- 76,"Addison Group"
+-- 80,"Scientific American"
+-- 82,"Leidos"
+-- 88,"Experis"
+-- 89,"BAE Systems"
+-- 91,"Cognizant Technology Solutions"
+-- 92,"UST"
+-- 96,"CGI"
+-- 98,"Google"
+-- 100,"ClearanceJobs"
+-- 102,"Atlassian"
+-- 108,"MATRIX Resources"
+-- 112,"Genesis10"
+-- 114,"GM Financial"
+-- 115,"Defense Acquisition Support Services LLC"
+-- 116,"Ericsson"
+-- 118,"Pearson"
+-- 119,"Johnson & Johnson"
+-- 123,"Cisco"
+-- 126,"LLNL"
+-- 128,"Verizon"
+-- 138,"Cardinal Health"
+-- 143,"Guidehouse"
+-- 152,"UnitedHealth Group"
+-- 154,"Capital One"
+-- 156,"Insight Global"
+-- 162,"Harnham"
+-- 165,"Fidelity Investments"
+-- 174,"Massachusetts General Hospital"
+-- 176,"Penn Medicine"
+-- 180,"Mercy"
+-- 184,"LMI Government Consulting (Logistics Management Institute)"
+-- 187,"Wells Fargo"
+-- 189,"Cox Communications"
+-- 191,"SoFi"
+-- 209,"Motion Recruitment"
+-- 210,"Visa"
+-- 212,"EPAM Systems"
+-- 218,"Reperio Human Capital"
+-- 220,"Lockheed Martin"
+-- 225,"Change Healthcare"
+-- 241,"CTG"
+-- 244,"Publicis Groupe"
+-- 248,"ecocareers"
+-- 250,"Elevance Health"
+-- 259,"Experian"
+-- 260,"Columbia University Irving Medical Center"
+-- 264,"Florida Blue"
+-- 265,"PepsiCo"
+-- 271,"TD Bank"
+-- 274,"SoCalGas"
+-- 275,"LTK"
+-- 285,"Wintrust Financial Corporation"
+-- 300,"Cognizant"
+-- 301,"Gopuff"
+-- 307,"Securian Financial Group"
+-- 309,"MAXAR Technologies"
+-- 317,"RIT Solutions, Inc."
+-- 321,"Aptos"
+-- 324,"Meta Platforms, Inc. (f/k/a Facebook, Inc.)"
+-- 327,"NBCUniversal"
+-- 337,"Upwork"
+-- 343,"Columbia University"
+-- 348,"IBM"
+-- 351,"WWC Global"
+-- 352,"Hays"
+-- 353,"HII Mission Technologies"
+-- 357,"American Express"
+-- 367,"Walmart"
+-- 371,"Eliassen Group"
+-- 373,"The Mom Project"
+-- 379,"Genworth"
+-- 380,"United Airlines"
+-- 386,"ClickJobs.io"
+-- 388,"Maximus"
+-- 395,"S&P Global"
+-- 408,"AutoNation"
+-- 411,"Salesforce"
+-- 413,"Clarivate Analytics US LLC"
+-- 417,"Thermo Fisher Scientific"
