@@ -77,6 +77,26 @@ GROUP BY skills_job_dim.skill_id, skills_dim.skills
 ORDER BY job_count DESC
 LIMIT 10;
 
+SELECT skills_job_dim.skill_id, skills_dim.skills, COUNT(job_id) AS count FROM skills_job_dim
+JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+GROUP BY skills_job_dim.skill_id, skills_dim.skills
+ORDER BY count DESC
+LIMIT 5;
+
+SELECT COUNT(DISTINCT job_id) FROM job_postings_fact;
+-- 787686
+
+select COUNT (DISTINCT job_id) FROM skills_job_dim;
+-- 670364
+
+SELECT COUNT(DISTINCT job_postings_fact.job_id) FROM job_postings_fact
+JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id;
+-- 670364
+
+-- Above 3 queries confirms that the job_id present in skills_job_dim table are same as in the job_postings_fact table
+-- as we checked count of unique job ids in skills_job_dim table and matched it with the unique job_ids in inner join of job_postings_fact and skills_job_dim table
+-- and both are equal, confirming the theory.
+
 
 -- Determine the size category (small, medium or large) for each company by first identifying the job postings they have. Use a subquery to calculate the total job postings per comapny.
 -- A company is considered small if it has less than 10 job postings    
